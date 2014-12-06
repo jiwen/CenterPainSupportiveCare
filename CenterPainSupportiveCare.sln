@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CenterPainSupportiveCare", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CenterPainSupportiveCare.Tests", "CenterPainSupportiveCare.Tests\CenterPainSupportiveCare.Tests.csproj", "{D7763A62-55BE-4C3D-925A-B1A0DD6B18F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CenterPainSupportiveCareModels", "CenterPainSupportiveCareModels\CenterPainSupportiveCareModels.csproj", "{82872CCD-B552-4315-9339-9C989CE21347}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D7763A62-55BE-4C3D-925A-B1A0DD6B18F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7763A62-55BE-4C3D-925A-B1A0DD6B18F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7763A62-55BE-4C3D-925A-B1A0DD6B18F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82872CCD-B552-4315-9339-9C989CE21347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82872CCD-B552-4315-9339-9C989CE21347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82872CCD-B552-4315-9339-9C989CE21347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82872CCD-B552-4315-9339-9C989CE21347}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
