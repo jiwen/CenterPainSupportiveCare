@@ -14,11 +14,69 @@ namespace CenterPainSupportiveCareModels
     
     public partial class Patient
     {
+        public Patient()
+        {
+            this.AbdomenExams = new HashSet<AbdomenExam>();
+            this.Addresses = new HashSet<Address>();
+            this.Allergies = new HashSet<Allergy>();
+            this.AssessmentAndPlans = new HashSet<AssessmentAndPlan>();
+            this.CardioExams = new HashSet<CardioExam>();
+            this.ChiefComplaints = new HashSet<ChiefComplaint>();
+            this.ChiefComplaints1 = new HashSet<ChiefComplaint>();
+            this.ExtremityExams = new HashSet<ExtremityExam>();
+            this.MusculoskeltalExams = new HashSet<MusculoskeltalExam>();
+            this.NeuroPsychExams = new HashSet<NeuroPsychExam>();
+            this.OtherExams = new HashSet<OtherExam>();
+            this.PatientLabResults = new HashSet<PatientLabResult>();
+            this.PatientLabs = new HashSet<PatientLab>();
+            this.PatientMedications = new HashSet<PatientMedication>();
+            this.PhysicalExams = new HashSet<PhysicalExam>();
+            this.PulmonaryExams = new HashSet<PulmonaryExam>();
+            this.RadiologyResults = new HashSet<RadiologyResult>();
+            this.ReviewOfSystems = new HashSet<ReviewOfSystem>();
+            this.Reviews = new HashSet<Review>();
+            this.Sensations = new HashSet<Sensation>();
+            this.StrengthExams = new HashSet<StrengthExam>();
+            this.PatientHistories = new HashSet<PatientHistory>();
+            this.PatientHistories1 = new HashSet<PatientHistory>();
+            this.Prescriptions = new HashSet<Prescription>();
+        }
+    
         public int PatientId { get; set; }
         public string FirstName { get; set; }
         public string MiddleInitial { get; set; }
         public string LastName { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }
+        public Nullable<System.DateTime> DOB { get; set; }
+        public Nullable<System.DateTime> DOA { get; set; }
+        public Nullable<System.DateTime> DOS { get; set; }
+        public string ACCT { get; set; }
+        public string MRN { get; set; }
+    
+        public virtual ICollection<AbdomenExam> AbdomenExams { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Allergy> Allergies { get; set; }
+        public virtual ICollection<AssessmentAndPlan> AssessmentAndPlans { get; set; }
+        public virtual ICollection<CardioExam> CardioExams { get; set; }
+        public virtual ICollection<ChiefComplaint> ChiefComplaints { get; set; }
+        public virtual ICollection<ChiefComplaint> ChiefComplaints1 { get; set; }
+        public virtual ICollection<ExtremityExam> ExtremityExams { get; set; }
+        public virtual ICollection<MusculoskeltalExam> MusculoskeltalExams { get; set; }
+        public virtual ICollection<NeuroPsychExam> NeuroPsychExams { get; set; }
+        public virtual ICollection<OtherExam> OtherExams { get; set; }
+        public virtual ICollection<PatientLabResult> PatientLabResults { get; set; }
+        public virtual ICollection<PatientLab> PatientLabs { get; set; }
+        public virtual ICollection<PatientMedication> PatientMedications { get; set; }
+        public virtual ICollection<PhysicalExam> PhysicalExams { get; set; }
+        public virtual ICollection<PulmonaryExam> PulmonaryExams { get; set; }
+        public virtual ICollection<RadiologyResult> RadiologyResults { get; set; }
+        public virtual ICollection<ReviewOfSystem> ReviewOfSystems { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Sensation> Sensations { get; set; }
+        public virtual ICollection<StrengthExam> StrengthExams { get; set; }
+        public virtual ICollection<PatientHistory> PatientHistories { get; set; }
+        public virtual ICollection<PatientHistory> PatientHistories1 { get; set; }
+        public virtual ICollection<Prescription> Prescriptions { get; set; }
     }
 }

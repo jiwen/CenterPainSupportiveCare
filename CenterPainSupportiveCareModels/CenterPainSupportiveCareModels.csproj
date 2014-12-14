@@ -100,6 +100,36 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbdomenExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Address.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Allergy.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentAndPlan.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CardioExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChiefComplaint.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="CPSCModels.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -115,14 +145,95 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CPSCModels.edmx</DependentUpon>
     </Compile>
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExtremityExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GoalsOfCare.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HistoryPresentIllness.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HistoryType.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LabType.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LabValueType.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Location.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Medication.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MedicationType.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MusculoskeltalExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NeuroPsychExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OtherExam.cs">
       <DependentUpon>CPSCModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Patient.cs">
       <DependentUpon>CPSCModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="PatientHistory.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientLab.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientLabResult.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientMedication.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhysicalExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Prescription.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionMedicationSyrinx.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PulmonaryExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadiologyResult.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Review.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReviewOfSystem.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sensation.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Status.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StrengthExam.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Syrinx.cs">
       <DependentUpon>CPSCModels.tt</DependentUpon>
     </Compile>
   </ItemGroup>

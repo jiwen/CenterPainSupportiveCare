@@ -14,10 +14,22 @@ namespace CenterPainSupportiveCareModels
     
     public partial class Medication
     {
+        public Medication()
+        {
+            this.Syringes = new HashSet<Syrinx>();
+            this.PrescriptionMedicationSyringes = new HashSet<PrescriptionMedicationSyrinx>();
+        }
+    
         public int MedicationId { get; set; }
         public string MedicationName { get; set; }
         public string Measure { get; set; }
         public string Volume { get; set; }
         public string Price { get; set; }
+        public Nullable<int> MinimumVolumeLimit { get; set; }
+        public Nullable<int> MaximumVolumeLimit { get; set; }
+        public string Unit { get; set; }
+    
+        public virtual ICollection<Syrinx> Syringes { get; set; }
+        public virtual ICollection<PrescriptionMedicationSyrinx> PrescriptionMedicationSyringes { get; set; }
     }
 }

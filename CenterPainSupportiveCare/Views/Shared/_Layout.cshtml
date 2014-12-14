@@ -6,6 +6,10 @@
     <title>@ViewBag.Title - Center For Pain and Supportive Care</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("MyScripts", required: false)
 
 </head>
 <body>
@@ -27,8 +31,14 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Medications<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Search", "Index", "Medications")</li>
+                            <li>@Html.ActionLink("Search", "Search", "Medications")</li>
                             <li>@Html.ActionLink("List", "Index", "Medications")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prescriptions<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Search", "Search", "Medications")</li>
                         </ul>
                     </li>
                     
@@ -46,8 +56,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
 </body>
 </html>
