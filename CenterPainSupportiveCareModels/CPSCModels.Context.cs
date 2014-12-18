@@ -63,7 +63,8 @@ namespace CenterPainSupportiveCareModels
         public virtual DbSet<StrengthExam> StrengthExams { get; set; }
         public virtual DbSet<PatientHistory> PatientHistories { get; set; }
         public virtual DbSet<Prescription> Prescriptions { get; set; }
-        public virtual DbSet<Syrinx> Syringes { get; set; }
         public virtual DbSet<PrescriptionMedicationSyrinx> PrescriptionMedicationSyringes { get; set; }
+        public virtual DbSet<Error> Errors { get; set; }
+        public virtual DbSet<Syrinx> Syringes { get; set; }
     }
 }

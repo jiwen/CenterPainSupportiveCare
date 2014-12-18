@@ -77,15 +77,16 @@
         <AssociationConnector Association="Model.FK_PatientHistories_HistoryTypes" />
         <AssociationConnector Association="Model.FK_PatientHistories_Patients" />
         <EntityTypeShape EntityType="Model.Prescription" Width="1.5" PointX="14" PointY="7.75" />
-        <EntityTypeShape EntityType="Model.Syrinx" Width="1.5" PointX="16.25" PointY="4.875" />
-        <AssociationConnector Association="Model.FK_Syringes_Medications" />
         <AssociationConnector Association="Model.FK_Prescriptions_Patients" />
         <AssociationConnector Association="Model.FK_Prescriptions_Providers" />
-        <AssociationConnector Association="Model.FK_Syringes_Prescriptions" />
         <EntityTypeShape EntityType="Model.PrescriptionMedicationSyrinx" Width="1.5" PointX="18.5" PointY="4.5" />
         <AssociationConnector Association="Model.FK_PrescriptionMedicationSyringes_Medications" />
         <AssociationConnector Association="Model.FK_PrescriptionMedicationSyringes_Prescriptions" />
+        <EntityTypeShape EntityType="Model.Error" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="Model.FK_Prescriptions_Statuses" />
+        <EntityTypeShape EntityType="Model.Syrinx" Width="1.5" PointX="16.25" PointY="8.75" />
         <AssociationConnector Association="Model.FK_PrescriptionMedicationSyringes_Syringes" />
+        <AssociationConnector Association="Model.FK_Syringes_Prescriptions" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

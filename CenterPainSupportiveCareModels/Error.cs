@@ -12,16 +12,12 @@ namespace CenterPainSupportiveCareModels
     using System;
     using System.Collections.Generic;
     
-    public partial class Status
+    public partial class Error
     {
-        public Status()
-        {
-            this.Prescriptions = new HashSet<Prescription>();
-        }
-    
-        public int StatusId { get; set; }
-        public string Description { get; set; }
-    
-        public virtual ICollection<Prescription> Prescriptions { get; set; }
+        public int ErrorId { get; set; }
+        public string GUID { get; set; }
+        public string Message { get; set; }
+        public string Stacktrace { get; set; }
+        public Nullable<System.DateTime> DateCreated { get; set; }
     }
 }

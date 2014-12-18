@@ -16,7 +16,6 @@ namespace CenterPainSupportiveCareModels
     {
         public Medication()
         {
-            this.Syringes = new HashSet<Syrinx>();
             this.PrescriptionMedicationSyringes = new HashSet<PrescriptionMedicationSyrinx>();
         }
     
@@ -29,7 +28,6 @@ namespace CenterPainSupportiveCareModels
         public Nullable<int> MaximumVolumeLimit { get; set; }
         public string Unit { get; set; }
     
-        public virtual ICollection<Syrinx> Syringes { get; set; }
         public virtual ICollection<PrescriptionMedicationSyrinx> PrescriptionMedicationSyringes { get; set; }
     }
 }

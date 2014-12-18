@@ -148,6 +148,9 @@
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>CPSCModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Error.cs">
+      <DependentUpon>CPSCModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExtremityExam.cs">
       <DependentUpon>CPSCModels.tt</DependentUpon>
     </Compile>

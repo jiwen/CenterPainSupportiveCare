@@ -137,6 +137,16 @@
           <Property Name="DateCreated" Type="datetime" />
           <Property Name="DateModified" Type="datetime" />
         </EntityType>
+        <EntityType Name="Errors">
+          <Key>
+            <PropertyRef Name="ErrorId" />
+          </Key>
+          <Property Name="ErrorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GUID" Type="varchar" MaxLength="50" />
+          <Property Name="Message" Type="varchar(max)" />
+          <Property Name="Stacktrace" Type="varchar(max)" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
         <EntityType Name="ExtremityExams">
           <Key>
             <PropertyRef Name="ExtremityExamId" />
@@ -358,6 +368,7 @@
           <Property Name="PatientId" Type="int" Nullable="false" />
           <Property Name="ProviderId" Type="int" Nullable="false" />
           <Property Name="AppointmentDate" Type="datetime" />
+          <Property Name="StatusId" Type="int" />
         </EntityType>
         <EntityType Name="Providers">
           <Key>
@@ -467,7 +478,6 @@
           </Key>
           <Property Name="SyringeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PrescriptionId" Type="int" Nullable="false" />
-          <Property Name="MedicationId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AbdomenExams_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
@@ -849,6 +859,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Prescriptions_Statuses">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Prescriptions" Type="Self.Prescriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Prescriptions">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PulmonaryExams_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
           <End Role="PulmonaryExams" Type="Self.PulmonaryExams" Multiplicity="*" />
@@ -957,18 +979,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Syringes_Medications">
-          <End Role="Medications" Type="Self.Medications" Multiplicity="1" />
-          <End Role="Syringes" Type="Self.Syringes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Medications">
-              <PropertyRef Name="MedicationId" />
-            </Principal>
-            <Dependent Role="Syringes">
-              <PropertyRef Name="MedicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Syringes_Prescriptions">
           <End Role="Prescriptions" Type="Self.Prescriptions" Multiplicity="1" />
           <End Role="Syringes" Type="Self.Syringes" Multiplicity="*" />
@@ -994,6 +1004,7 @@
           <EntitySet Name="AssessmentAndPlans" EntityType="Self.AssessmentAndPlans" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CardioExams" EntityType="Self.CardioExams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChiefComplaints" EntityType="Self.ChiefComplaints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Errors" EntityType="Self.Errors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExtremityExams" EntityType="Self.ExtremityExams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoalsOfCares" EntityType="Self.GoalsOfCares" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HistoryPresentIllness" EntityType="Self.HistoryPresentIllness" Schema="dbo" store:Type="Tables" />
@@ -1147,6 +1158,10 @@
             <End Role="Providers" EntitySet="Providers" />
             <End Role="Prescriptions" EntitySet="Prescriptions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Prescriptions_Statuses" Association="Self.FK_Prescriptions_Statuses">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Prescriptions" EntitySet="Prescriptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_PulmonaryExams_Patients" Association="Self.FK_PulmonaryExams_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PulmonaryExams" EntitySet="PulmonaryExams" />
@@ -1183,10 +1198,6 @@
             <End Role="Patients" EntitySet="Patients" />
             <End Role="StrengthExams" EntitySet="StrengthExams" />
           </AssociationSet>
-          <AssociationSet Name="FK_Syringes_Medications" Association="Self.FK_Syringes_Medications">
-            <End Role="Medications" EntitySet="Medications" />
-            <End Role="Syringes" EntitySet="Syringes" />
-          </AssociationSet>
           <AssociationSet Name="FK_Syringes_Prescriptions" Association="Self.FK_Syringes_Prescriptions">
             <End Role="Prescriptions" EntitySet="Prescriptions" />
             <End Role="Syringes" EntitySet="Syringes" />
@@ -1208,7 +1219,6 @@
           <Property Name="MinimumVolumeLimit" Type="Int32" />
           <Property Name="MaximumVolumeLimit" Type="Int32" />
           <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Syringes" Relationship="Model.FK_Syringes_Medications" FromRole="Medication" ToRole="Syrinx" />
           <NavigationProperty Name="PrescriptionMedicationSyringes" Relationship="Model.FK_PrescriptionMedicationSyringes_Medications" FromRole="Medication" ToRole="PrescriptionMedicationSyrinx" />
         </EntityType>
         <EntityType Name="Patient">
@@ -1257,6 +1267,7 @@
           </Key>
           <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Prescriptions" Relationship="Model.FK_Prescriptions_Statuses" FromRole="Status" ToRole="Prescription" />
         </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Medications" EntityType="Self.Medication" />
@@ -1433,11 +1444,6 @@
             <End Role="PatientHistory" EntitySet="PatientHistories" />
           </AssociationSet>
           <EntitySet Name="Prescriptions" EntityType="Model.Prescription" />
-          <EntitySet Name="Syringes" EntityType="Model.Syrinx" />
-          <AssociationSet Name="FK_Syringes_Medications" Association="Model.FK_Syringes_Medications">
-            <End Role="Medication" EntitySet="Medications" />
-            <End Role="Syrinx" EntitySet="Syringes" />
-          </AssociationSet>
           <AssociationSet Name="FK_Prescriptions_Patients" Association="Model.FK_Prescriptions_Patients">
             <End Role="Patient" EntitySet="Patients" />
             <End Role="Prescription" EntitySet="Prescriptions" />
@@ -1445,10 +1451,6 @@
           <AssociationSet Name="FK_Prescriptions_Providers" Association="Model.FK_Prescriptions_Providers">
             <End Role="Provider" EntitySet="Providers" />
             <End Role="Prescription" EntitySet="Prescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Syringes_Prescriptions" Association="Model.FK_Syringes_Prescriptions">
-            <End Role="Prescription" EntitySet="Prescriptions" />
-            <End Role="Syrinx" EntitySet="Syringes" />
           </AssociationSet>
           <EntitySet Name="PrescriptionMedicationSyringes" EntityType="Model.PrescriptionMedicationSyrinx" />
           <AssociationSet Name="FK_PrescriptionMedicationSyringes_Medications" Association="Model.FK_PrescriptionMedicationSyringes_Medications">
@@ -1459,9 +1461,19 @@
             <End Role="Prescription" EntitySet="Prescriptions" />
             <End Role="PrescriptionMedicationSyrinx" EntitySet="PrescriptionMedicationSyringes" />
           </AssociationSet>
+          <EntitySet Name="Errors" EntityType="Model.Error" />
+          <AssociationSet Name="FK_Prescriptions_Statuses" Association="Model.FK_Prescriptions_Statuses">
+            <End Role="Status" EntitySet="Statuses" />
+            <End Role="Prescription" EntitySet="Prescriptions" />
+          </AssociationSet>
+          <EntitySet Name="Syringes" EntityType="Model.Syrinx" />
           <AssociationSet Name="FK_PrescriptionMedicationSyringes_Syringes" Association="Model.FK_PrescriptionMedicationSyringes_Syringes">
             <End Role="Syrinx" EntitySet="Syringes" />
             <End Role="PrescriptionMedicationSyrinx" EntitySet="PrescriptionMedicationSyringes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Syringes_Prescriptions" Association="Model.FK_Syringes_Prescriptions">
+            <End Role="Prescription" EntitySet="Prescriptions" />
+            <End Role="Syrinx" EntitySet="Syringes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -2315,33 +2327,12 @@
           <Property Name="ProviderId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Patient" Relationship="Model.FK_Prescriptions_Patients" FromRole="Prescription" ToRole="Patient" />
           <NavigationProperty Name="Provider" Relationship="Model.FK_Prescriptions_Providers" FromRole="Prescription" ToRole="Provider" />
-          <NavigationProperty Name="Syringes" Relationship="Model.FK_Syringes_Prescriptions" FromRole="Prescription" ToRole="Syrinx" />
           <NavigationProperty Name="PrescriptionMedicationSyringes" Relationship="Model.FK_PrescriptionMedicationSyringes_Prescriptions" FromRole="Prescription" ToRole="PrescriptionMedicationSyrinx" />
           <Property Name="AppointmentDate" Type="DateTime" Precision="3" />
+          <Property Name="StatusId" Type="Int32" />
+          <NavigationProperty Name="Status" Relationship="Model.FK_Prescriptions_Statuses" FromRole="Prescription" ToRole="Status" />
+          <NavigationProperty Name="Syringes" Relationship="Model.FK_Syringes_Prescriptions" FromRole="Prescription" ToRole="Syrinx" />
         </EntityType>
-        <EntityType Name="Syrinx">
-          <Key>
-            <PropertyRef Name="SyringeId" />
-          </Key>
-          <Property Name="SyringeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PrescriptionId" Type="Int32" Nullable="false" />
-          <Property Name="MedicationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Medication" Relationship="Model.FK_Syringes_Medications" FromRole="Syrinx" ToRole="Medication" />
-          <NavigationProperty Name="Prescription" Relationship="Model.FK_Syringes_Prescriptions" FromRole="Syrinx" ToRole="Prescription" />
-          <NavigationProperty Name="PrescriptionMedicationSyringes" Relationship="Model.FK_PrescriptionMedicationSyringes_Syringes" FromRole="Syrinx" ToRole="PrescriptionMedicationSyrinx" />
-        </EntityType>
-        <Association Name="FK_Syringes_Medications">
-          <End Type="Model.Medication" Role="Medication" Multiplicity="1" />
-          <End Type="Model.Syrinx" Role="Syrinx" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Medication">
-              <PropertyRef Name="MedicationId" />
-            </Principal>
-            <Dependent Role="Syrinx">
-              <PropertyRef Name="MedicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Prescriptions_Patients">
           <End Type="Model.Patient" Role="Patient" Multiplicity="1" />
           <End Type="Model.Prescription" Role="Prescription" Multiplicity="*" />
@@ -2363,18 +2354,6 @@
             </Principal>
             <Dependent Role="Prescription">
               <PropertyRef Name="ProviderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Syringes_Prescriptions">
-          <End Type="Model.Prescription" Role="Prescription" Multiplicity="1" />
-          <End Type="Model.Syrinx" Role="Syrinx" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Prescription">
-              <PropertyRef Name="PrescriptionId" />
-            </Principal>
-            <Dependent Role="Syrinx">
-              <PropertyRef Name="PrescriptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2416,6 +2395,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Error">
+          <Key>
+            <PropertyRef Name="ErrorId" />
+          </Key>
+          <Property Name="ErrorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GUID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Stacktrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Prescriptions_Statuses">
+          <End Type="Model.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="Model.Prescription" Role="Prescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Prescription">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Syrinx">
+          <Key>
+            <PropertyRef Name="SyringeId" />
+          </Key>
+          <Property Name="SyringeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrescriptionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PrescriptionMedicationSyringes" Relationship="Model.FK_PrescriptionMedicationSyringes_Syringes" FromRole="Syrinx" ToRole="PrescriptionMedicationSyrinx" />
+          <NavigationProperty Name="Prescription" Relationship="Model.FK_Syringes_Prescriptions" FromRole="Syrinx" ToRole="Prescription" />
+        </EntityType>
         <Association Name="FK_PrescriptionMedicationSyringes_Syringes">
           <End Type="Model.Syrinx" Role="Syrinx" Multiplicity="1" />
           <End Type="Model.PrescriptionMedicationSyrinx" Role="PrescriptionMedicationSyrinx" Multiplicity="*" />
@@ -2425,6 +2435,18 @@
             </Principal>
             <Dependent Role="PrescriptionMedicationSyrinx">
               <PropertyRef Name="SyringeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Syringes_Prescriptions">
+          <End Type="Model.Prescription" Role="Prescription" Multiplicity="1" />
+          <End Type="Model.Syrinx" Role="Syrinx" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prescription">
+              <PropertyRef Name="PrescriptionId" />
+            </Principal>
+            <Dependent Role="Syrinx">
+              <PropertyRef Name="PrescriptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2902,6 +2924,7 @@
           <EntitySetMapping Name="Prescriptions">
             <EntityTypeMapping TypeName="Model.Prescription">
               <MappingFragment StoreEntitySet="Prescriptions">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
                 <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />
@@ -2914,15 +2937,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Syringes">
-            <EntityTypeMapping TypeName="Model.Syrinx">
-              <MappingFragment StoreEntitySet="Syringes">
-                <ScalarProperty Name="MedicationId" ColumnName="MedicationId" />
-                <ScalarProperty Name="PrescriptionId" ColumnName="PrescriptionId" />
-                <ScalarProperty Name="SyringeId" ColumnName="SyringeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PrescriptionMedicationSyringes">
             <EntityTypeMapping TypeName="Model.PrescriptionMedicationSyrinx">
               <MappingFragment StoreEntitySet="PrescriptionMedicationSyringes">
@@ -2932,6 +2946,25 @@
                 <ScalarProperty Name="MedicationId" ColumnName="MedicationId" />
                 <ScalarProperty Name="PrescriptionId" ColumnName="PrescriptionId" />
                 <ScalarProperty Name="PrescriptionMedicationSyringeId" ColumnName="PrescriptionMedicationSyringeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Errors">
+            <EntityTypeMapping TypeName="Model.Error">
+              <MappingFragment StoreEntitySet="Errors">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Stacktrace" ColumnName="Stacktrace" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Syringes">
+            <EntityTypeMapping TypeName="Model.Syrinx">
+              <MappingFragment StoreEntitySet="Syringes">
+                <ScalarProperty Name="PrescriptionId" ColumnName="PrescriptionId" />
+                <ScalarProperty Name="SyringeId" ColumnName="SyringeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
