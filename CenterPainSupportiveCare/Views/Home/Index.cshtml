@@ -3,9 +3,16 @@
 }
 
 <div class="jumbotron">
-    <h1>AZCPSC</h1>
+    @*@<h1>Arizona Center for Pain and Supportive Care</h1>*@
     <p class="lead"></p>
+@if (Request.IsAuthenticated)
+{
     <p><a href="@Url.Action("Create", "Prescriptions")" class="btn btn-primary btn-sm">Create Prescription &raquo;</a></p>
     <p><a href="@Url.Action("Index", "Medications")" class="btn btn-primary btn-sm">View medications &raquo;</a></p>
+}
+else
+{
+    <p><a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-sm">Login &raquo;</a></p>
+}
 </div>
 

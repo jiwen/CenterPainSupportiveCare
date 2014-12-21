@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CenterPainSupportiveCare.Models;
+using System.Web.Security;
 
 namespace CenterPainSupportiveCare.Controllers
 {
@@ -50,6 +51,14 @@ namespace CenterPainSupportiveCare.Controllers
             {
                 _userManager = value;
             }
+        }
+        
+        //
+        // GET: /Account/Index
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            return View("Login");
         }
 
         //
@@ -136,10 +145,17 @@ namespace CenterPainSupportiveCare.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult Register()
         {
-            return View();
+           if (User.IsInRole("Admin"))
+           {
+               return View();
+           }
+           else
+           {
+               return RedirectToAction("Index","Home");
+           }
         }
 
         //
@@ -155,7 +171,7 @@ namespace CenterPainSupportiveCare.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -163,7 +179,9 @@ namespace CenterPainSupportiveCare.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                    ViewBag.Message = string.Format("Account created successfully for {0}",model.Email);
+                    return View(model);
                 }
                 AddErrors(result);
             }
