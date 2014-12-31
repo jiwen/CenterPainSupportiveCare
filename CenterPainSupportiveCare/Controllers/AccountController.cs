@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,6 +12,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CenterPainSupportiveCare.Models;
 using System.Web.Security;
+using CenterPainSupportiveCareModels;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CenterPainSupportiveCare.Controllers
 {
@@ -18,6 +23,7 @@ namespace CenterPainSupportiveCare.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private Entities db = new Entities();
 
         public AccountController()
         {
@@ -150,6 +156,7 @@ namespace CenterPainSupportiveCare.Controllers
         {
            if (User.IsInRole("Admin"))
            {
+               ViewBag.Roles = GetRoleList();
                return View();
            }
            else
@@ -165,28 +172,42 @@ namespace CenterPainSupportiveCare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+
+                if (ModelState.IsValid)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);                   
 
-                    //return RedirectToAction("Index", "Home");
-                    ViewBag.Message = string.Format("Account created successfully for {0}",model.Email);
-                    return View(model);
+                    if (result.Succeeded)
+                    {
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //return RedirectToAction("Index", "Home");
+                        await UserManager.AddToRoleAsync(user.Id, model.Role.Name);
+                        ViewBag.Roles = GetRoleList();
+                        ViewBag.Message = string.Format("Account created successfully for {0}", model.Email);
+                        return View(model);
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            // If we got this far, something failed, redisplay form
+                // If we got this far, something failed, redisplay form
+                ViewBag.Roles = GetRoleList();
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                HelperController.ErrorMessage(ex, "Register()");
+            }
+            ViewBag.Roles = GetRoleList();
             return View(model);
         }
 
@@ -442,6 +463,23 @@ namespace CenterPainSupportiveCare.Controllers
         }
 
         #region Helpers
+
+        public SelectList GetRoleList()
+        {
+            try
+            {
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());
+                var roles = roleManager.Roles.ToList();
+                return new SelectList(roles, "Name", "Name");
+            }
+            catch (Exception ex)
+            {
+                HelperController.ErrorMessage(ex, "GetRoleList()");
+            }
+
+            return new SelectList(new List<CenterPainSupportiveCareModels.AspNetRole>(), "", "");
+        }
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
