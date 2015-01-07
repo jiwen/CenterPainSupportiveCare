@@ -1,0 +1,87 @@
+﻿@model CenterPainSupportiveCareModels.Prescription
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Prescription</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFilled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFilled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rx)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rx)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateModified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateModified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patient.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patient.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Provider.ProviderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Provider.ProviderName)
+        </dd>
+
+        @foreach(var medication in Model.Syringes.FirstOrDefault().PrescriptionMedicationSyringes.ToList())
+        { 
+        <dt>
+            @Html.DisplayName("Medication")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => medication.Medication.MedicationName)
+            @Html.DisplayFor(model => medication.Quantity)
+            @Html.DisplayFor(model => medication.Unit)
+            $@Html.DisplayFor(model => medication.Medication.Price)
+        </dd>
+        }
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PrescriptionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

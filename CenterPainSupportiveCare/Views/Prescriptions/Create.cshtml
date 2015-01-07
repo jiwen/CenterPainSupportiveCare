@@ -1,0 +1,358 @@
+﻿@model CenterPainSupportiveCare.Models.Prescription
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Ajax.BeginForm("Create","Prescriptions",new AjaxOptions{ OnSuccess="OnSuccess", OnFailure="OnFailure"}))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Prescription</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-6">
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4>Error!</h4>
+                        <p>
+                            @foreach (var error in ViewBag.Errors)
+                            {
+                                <span>There was an error. Reference " @error.Guid</span>
+                            }
+                        </p>
+                    </div>
+                }
+            
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4>Success!</h4>
+                    <p><span>@ViewBag.Message</span></p>
+                </div>
+            }
+            </div>                 
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateFilled, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateFilled,"(mm/dd/yyyy)",new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateFilled, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Patient.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Patient.LastName, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Patient.LastName, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Patient.Id)                
+            </div>                      
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Patient.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Patient.FirstName, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Patient.FirstName, "", new { @class = "text-danger" })
+            </div>  
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patient.DateOfBirth,"Date of Birth (mm/dd/yyyy)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Patient.DateOfBirth, "{0:MM/dd/yyyy}", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Patient.DateOfBirth, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                <input type="button" id="PatientSearch" value="Search" class="btn btn-default" />
+            </div>
+            <div class="col-md-offset-2 col-md-10 text-danger" id="PatientSearchMessage">
+            </div>
+        </div>
+
+        <div class="form-group">                  
+                @Html.LabelFor(model => model.Patient.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Patient.Street, "", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Patient.Street, "", new { @class = "text-danger" })
+                </div>
+        </div>
+        <div class="form-group">                
+                @Html.LabelFor(model => model.Patient.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Patient.City, "", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Patient.City, "", new { @class = "text-danger" })
+                </div> 
+        </div>
+        <div class="form-group">
+                @Html.LabelFor(model => model.Patient.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(model => model.Patient.State, "", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Patient.State, "", new { @class = "text-danger" })
+                </div> 
+                @Html.LabelFor(model => model.Patient.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(model => model.Patient.ZipCode, "", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Patient.ZipCode, "", new { @class = "text-danger" })
+                </div>
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.AppointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AppointmentDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RxNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RxNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RxNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Quantity, ViewBag.VolumeChoices as SelectList, htmlAttributes: new { @class = "form-control" })
+                    
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Provider.ProviderName, "Provider Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProviderId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessage("ProviderId", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group"> 
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    @Html.DropDownList("Medications", ViewBag.Medications as SelectList, "Choose medication...", htmlAttributes: new { @class = "form-control"})
+                </div>
+                <div class="col-md-2">
+                    @Html.TextBox("PrescriptionQuantity", "(enter quantity)", htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("PrescriptionUnit", ViewBag.Units as SelectList, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Syringes[0].Medications[0].PrescriptionUnit, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <input type="button" id="AddMedication" value="Add" class="btn btn-default" />
+                    <div id="MedicationAddMesssage" class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="border-bottom: 1px solid">
+            @Html.Label("Medication", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.Label("Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Unit", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Price", htmlAttributes: new { @class = "control-label col-md-2" })
+        </div>    
+        <div class="form-group">
+            <div id="MedicationList">
+                @if(Model != null && Model.Syringes != null && Model.Syringes.FirstOrDefault().Medications != null)
+                {
+                    for (int i = 0; i < Model.Syringes.FirstOrDefault().Medications.Count(); i++)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.HiddenFor(model => model.Syringes[0].Medications[i].Id)
+                                @Html.HiddenFor(model => model.Syringes[0].Medications[i].MedicationName)
+                                @Html.HiddenFor(model => model.Syringes[0].Medications[i].PrescriptionQuantity)
+                                @Html.HiddenFor(model => model.Syringes[0].Medications[i].PrescriptionUnit)
+                                @Html.HiddenFor(model => model.Syringes[0].Medications[i].Price)
+                                <label class="control-label col-md-3">@Model.Syringes[0].Medications[i].MedicationName</label>
+                                <label class="control-label col-md-2">@Model.Syringes[0].Medications[i].PrescriptionQuantity</label>
+                                <label class="control-label col-md-2">@Model.Syringes[0].Medications[i].PrescriptionUnit</label>
+                                <label class="control-label col-md-2" id="Syringes_0__Medications_@(i)__Price" value="@Model.Syringes[0].Medications[i].Price">@Model.Syringes[0].Medications[i].Price</label>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+@{
+   decimal totalPrice = new decimal();
+   if(Model != null && Model.Syringes != null && Model.Syringes.FirstOrDefault().Medications != null)
+   {
+    var priceList = Model.Syringes.FirstOrDefault().Medications.Select(m => m.Price).ToList();
+    
+    foreach(var price in priceList)
+    {
+        totalPrice += Convert.ToDecimal(price);
+    }
+   }
+}
+                Total Price: $<label id="TotalPrice" name="TotalPrice">@totalPrice</label>
+                
+                
+            </div>
+        </div>
+                    
+        <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save Prescription" class="btn btn-default" />
+            @Html.ActionLink("Clear", "Create", "Prescriptions", htmlAttributes: new { @class = "btn btn-default" })
+        </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#DateFilled").datepicker();
+        $("#AppointmentDate").datepicker();        
+
+        $("#PatientSearch").click(function () {
+            var lastName = $("#Patient_LastName").val();
+            var firstName = $("#Patient_FirstName").val();
+            var dob = $("#Patient_DateOfBirth").val();
+            if (lastName != "" && firstName != "" && dob != "" && dob != "mm/dd/yyyy") {
+                $.ajax({
+                    url: '@Url.Action("PatientSearch","Prescriptions")',
+                    type: "POST",
+                    data: { "Patient": { "FirstName": firstName, "LastName": lastName, "DateOfBirth": dob } }
+
+                }).done(function () {
+
+                }).success(function (result) {
+                    if (result == "") {
+                        $("#PatientSearchMessage").html("No patient found")
+                    }
+                    else {
+                        var patient = JSON.parse(result);
+                        //populate text 
+                        $("#Patient_LastName").val(patient.LastName);
+                        $("#Patient_FirstName").val(patient.FirstName);
+                        $("#Patient_Street").val(patient.Street);
+                        $("#Patient_City").val(patient.City);
+                        $("#Patient_State").val(patient.State);
+                        $("#Patient_ZipCode").val(patient.ZipCode);
+                        $("#Patient_DateOfBirth").val(patient.DateOfBirth);
+                        $("#Patient_Id").val(patient.Id);
+                        $("#PatientSearchMessage").html("");
+                    }
+                }).fail(function () {
+                    $("#PatientSearchMessage").html("There was an error. Please try again.")
+                });
+            }
+            else {
+                $("#PatientSearchMessage").html("Please enter a patient name and/or date of birth.")
+            }
+        })
+
+        $("#AddMedication").click(function () {
+            var name = $("#Medications").val()
+            var volume = $("#Quantity").val()
+            var prescriptionQuantity = $("#PrescriptionQuantity").val()
+            var unit = $("#PrescriptionUnit").val()
+
+            if (name != "" && prescriptionQuantity != "" || prescriptionQuantity != "(enter quantity)")
+            {
+                $.ajax({
+                    url: '@Url.Action("MedicationSearch","Prescriptions")',
+                    type: "POST",
+                    data: {
+                        "MedicationName": name,
+                        "PrescriptionQuantity": prescriptionQuantity,
+                        "PrescriptionUnit": unit,
+                        "Volume": volume
+                    }
+
+                }).done(function () {
+
+                }).success(function (result) {
+                    if (result == "") {
+                        $("#MedicationAddMesssage").html("No medication found")
+                    }
+                    else 
+                    {
+                        $("#MedicationAddMesssage").html("");
+                        var medication = JSON.parse(result);
+                        //populate medication list
+                        var count = $("#MedicationList > .form-group").length;
+                        
+                        var divGroup = "<div class='form-group'><div class='col-md-12'>";
+                        var medicationNameHtml = "<label class='control-label col-md-3'>"
+                            + medication.MedicationName + "</label>";
+                        var medicationPrice = "<label class='control-label col-md-2' id='Syringes_0__Medications_" + count + "__Price' value='"+ medication.Price +"'>"
+                            + medication.Price + "</label>";
+                        var medicationMeasure = "<label class='control-label col-md-2'>"
+                            + medication.PrescriptionQuantity + "</label>";
+                        var medicationUnit = "<label class='control-label col-md-2'>"
+                            + medication.Unit + "</label>";
+                        var medicationHiddenHtml = "<input type='hidden' id='Syringes_0__Medications_" + count + "__Id' name='Syringes[0].Medications[" + count + "].Id' value='" + medication.Id + "' />";
+                        var medicationHiddenName = "<input type='hidden' id='Syringes_0__Medications_" + count + "__MedicationName' name='Syringes[0].Medications[" + count + "].MedicationName' value='" + medication.MedicationName + "' />";
+                        var medicationHiddenHtmlQuantity = "<input type='hidden' id='Syringes_0__Medications_" + count + "__PrescritionQuantity' name='Syringes[0].Medications[" + count + "].PrescriptionQuantity' value='" + medication.PrescriptionQuantity + "' />";
+                        var medicationHiddenHtmlUnit = "<input type='hidden' id='Syringes_0__Medications_" + count + "__PrescritionUnit' name='Syringes[0].Medications[" + count + "].PrescriptionUnit' value='" + medication.PrescriptionUnit + "' />";
+                        var medicationHiddenPrice =    "<input type='hidden' id='Syringes_0__Medications_" + count + "__Price' name='Syringes[0].Medications[" + count + "].Price'  value='" + medication.Price + "' />";
+                        var endDivs = "</div></div>";
+                        
+                        $("#MedicationList").append(divGroup + medicationHiddenHtml + medicationHiddenName + medicationHiddenHtmlQuantity + medicationHiddenHtmlUnit + medicationNameHtml + medicationMeasure + medicationUnit + medicationPrice + medicationHiddenPrice + endDivs);
+                       
+                        var totalPrice = 0;
+                        for (var i = 0; i <= count; i++) {
+                            if ($("#Syringes_0__Medications_" + i + "__Price").val() != "") {
+                                totalPrice += parseFloat($("#Syringes_0__Medications_" + i + "__Price").val());
+                            }
+                            else
+                            {
+                                totalPrice += parseFloat($("#Syringes_0__Medications_" + i + "__Price").text());
+                            }
+                        }
+                        $("#TotalPrice").html(totalPrice);
+
+                    }
+                }).fail(function () {
+                    $("#MedicationAddMesssage").html("There was an error. Please try again.")
+                });
+            }
+            else {
+                $("#MedicationAddMesssage").html("Please enter a quantity.")
+            }
+        })
+
+        function OnSuccess(response) {
+            alert(response);
+        }
+
+        function OnFailure(response) {
+            alert("Whoops! That didn't go so well did it?");
+        }
+        
+        $("#Quantity").change(function () {
+            $("#MedicationList").html("");
+            $("#TotalPrice").text("");
+        });
+        
+    })
+</script>
+}

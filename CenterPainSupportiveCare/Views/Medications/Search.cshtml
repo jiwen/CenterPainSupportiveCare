@@ -1,0 +1,59 @@
+﻿@model CenterPainSupportiveCareModels.Medication
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Search</h2>
+
+@using (Html.BeginForm("Search","Medications",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Medication Search</h4> 
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            
+            <div class="col-md-10">
+                @Html.DropDownList("Medications", ViewBag.Medications as SelectList, "Choose medication...", new { onchange = "this.form.submit();" })
+            </div>
+        </div>
+        @if(ViewBag.Measures != null)
+        { 
+        <div class="form-group">
+
+            <div class="col-md-10">
+                @Html.DropDownList("Measures", ViewBag.Measures as SelectList,"Choose measure...", new { onchange = "this.form.submit();" })
+            </div>
+        </div>
+        }
+        
+        @if (ViewBag.Volumes != null)
+        {
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    @Html.DropDownList("Volumes", ViewBag.Volumes as SelectList, "Choose volume...", new { onchange = "this.form.submit();" })
+                </div>
+            </div>
+        }
+
+        @if(Model != null)
+        { 
+            <div>
+                @Html.LabelForModel(string.Format("{0} {1} {2} ${3}",Model.MedicationName, Model.Measure, Model.Volume, Model.Price))
+            </div>
+        }
+        
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
