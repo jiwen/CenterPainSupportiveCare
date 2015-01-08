@@ -25,7 +25,7 @@ namespace CenterPainSupportiveCare.Models
                 ZipCode = firstAddress.Zip.ToString();
             }
 
-            DateOfBirth = string.Format(@"{0}/{1}/{2}",patient.DOB.Value.Month, patient.DOB.Value.Day, patient.DOB.Value.Year);
+            DateOfBirth = patient.DOB.Value.ToString("MM/dd/yyyy"); //string.Format(@"{0}/{1}/{2}",patient.DOB.Value.Month, patient.DOB.Value.Day, patient.DOB.Value.Year);
         }
 
         public string Id { get; set; }
@@ -43,6 +43,8 @@ namespace CenterPainSupportiveCare.Models
         public string City { get; set; }
         [Display(Name = "Zip Code")]
         [Required(ErrorMessage = "Zipcode is required")]
+        [DataType(DataType.PostalCode)]
+        [RegularExpression(@"^\d{5}([\-]?\d{4})?$", ErrorMessage="Zip Code must be match pattern XXXXX OR XXXXX-XXXX and contain only numbers.")]
         public string ZipCode { get; set; }
         [Display(Name = "Date of Birth")]
         [Required(ErrorMessage = "Date of Birth is required")]

@@ -67,6 +67,7 @@ namespace CenterPainSupportiveCare.Controllers
                 ViewBag.VolumeChoices = GetVolumeList();
                 ViewBag.Units = GetUnitList();
                 ViewBag.Medications = GetMedicationList();
+                ViewBag.States = GetStatesList();
                 return View();
             }
             catch(Exception ex)
@@ -90,6 +91,7 @@ namespace CenterPainSupportiveCare.Controllers
                 ViewBag.VolumeChoices = GetVolumeList();
                 ViewBag.Units = GetUnitList();
                 ViewBag.Medications = GetMedicationList();
+                ViewBag.States = GetStatesList();
 
                 if (ModelState.IsValid)
                 {
@@ -442,6 +444,67 @@ namespace CenterPainSupportiveCare.Controllers
             }
 
             return new List<SelectListItem>();
+        }
+
+        public SelectList GetStatesList()
+        {
+            var states = new SelectList(
+                 new List<SelectListItem>
+                {
+                    new SelectListItem { Selected = false, Text = "AL", Value = "AL"},
+                    new SelectListItem { Selected = false, Text = "AK", Value = "AK"},
+                    new SelectListItem { Selected = true, Text = "AZ", Value = "AZ"},
+                    new SelectListItem { Selected = false, Text = "AR", Value = "AR"},
+                    new SelectListItem { Selected = false, Text = "CA", Value = "CA"},
+                    new SelectListItem { Selected = false, Text = "CO", Value = "CO"},
+                    new SelectListItem { Selected = false, Text = "CT", Value = "CT"},
+                    new SelectListItem { Selected = false, Text = "DE", Value = "DE"},
+                    new SelectListItem { Selected = false, Text = "FL", Value = "FL"},
+                    new SelectListItem { Selected = false, Text = "GA", Value = "GA"},
+                    new SelectListItem { Selected = false, Text = "HI", Value = "HI"},
+                    new SelectListItem { Selected = false, Text = "ID", Value = "ID"},
+                    new SelectListItem { Selected = false, Text = "IL", Value = "IL"},
+                    new SelectListItem { Selected = false, Text = "IN", Value = "IN"},
+                    new SelectListItem { Selected = false, Text = "IA", Value = "IA"},
+                    new SelectListItem { Selected = false, Text = "KS", Value = "KS"},
+                    new SelectListItem { Selected = false, Text = "KY", Value = "KY"},
+                    new SelectListItem { Selected = false, Text = "LA", Value = "LA"},
+                    new SelectListItem { Selected = false, Text = "ME", Value = "ME"},
+                    new SelectListItem { Selected = false, Text = "MD", Value = "MD"},
+                    new SelectListItem { Selected = false, Text = "MA", Value = "MA"},
+                    new SelectListItem { Selected = false, Text = "MI", Value = "MI"},
+                    new SelectListItem { Selected = false, Text = "MN", Value = "MN"},
+                    new SelectListItem { Selected = false, Text = "MS", Value = "MS"},
+                    new SelectListItem { Selected = false, Text = "MO", Value = "MO"},
+                    new SelectListItem { Selected = false, Text = "MT", Value = "MT"},
+                    new SelectListItem { Selected = false, Text = "NE", Value = "NE"},
+                    new SelectListItem { Selected = false, Text = "NV", Value = "NV"},
+                    new SelectListItem { Selected = false, Text = "NH", Value = "NH"},
+                    new SelectListItem { Selected = false, Text = "NJ", Value = "NJ"},
+                    new SelectListItem { Selected = false, Text = "NH", Value = "NH"},
+                    new SelectListItem { Selected = false, Text = "NM", Value = "NM"},
+                    new SelectListItem { Selected = false, Text = "NY", Value = "NY"},
+                    new SelectListItem { Selected = false, Text = "NC", Value = "NC"},
+                    new SelectListItem { Selected = false, Text = "ND", Value = "ND"},
+                    new SelectListItem { Selected = false, Text = "OH", Value = "OH"},
+                    new SelectListItem { Selected = false, Text = "OK", Value = "OK"},
+                    new SelectListItem { Selected = false, Text = "OR", Value = "OR"},
+                    new SelectListItem { Selected = false, Text = "PA", Value = "PA"},
+                    new SelectListItem { Selected = false, Text = "RI", Value = "RI"},
+                    new SelectListItem { Selected = false, Text = "SC", Value = "SC"},
+                    new SelectListItem { Selected = false, Text = "SD", Value = "SD"},
+                    new SelectListItem { Selected = false, Text = "TN", Value = "TN"},
+                    new SelectListItem { Selected = false, Text = "TX", Value = "TX"},
+                    new SelectListItem { Selected = false, Text = "UT", Value = "UT"},
+                    new SelectListItem { Selected = false, Text = "VT", Value = "VT"},
+                    new SelectListItem { Selected = false, Text = "VA", Value = "VA"},
+                    new SelectListItem { Selected = false, Text = "WA", Value = "WA"},
+                    new SelectListItem { Selected = false, Text = "WV", Value = "WV"},
+                    new SelectListItem { Selected = false, Text = "WI", Value = "WI"},
+                    new SelectListItem { Selected = false, Text = "WY", Value = "WY"},
+                }, "Value", "Text",selectedValue: "AZ");
+
+            return states;
         }
 
         #endregion

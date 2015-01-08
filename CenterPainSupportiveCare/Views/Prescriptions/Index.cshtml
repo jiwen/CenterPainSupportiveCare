@@ -60,9 +60,15 @@
             @Html.DisplayFor(modelItem => item.Provider.ProviderName)
         </td>
         <td>
+            if (User.IsInRole("Admin"))
+            {
             @Html.ActionLink("Edit", "Edit", new { id=item.PrescriptionId }) |
+            }
             @Html.ActionLink("Details", "Details", new { id=item.PrescriptionId }) |
+            if (User.IsInRole("Admin"))
+            {
             @Html.ActionLink("Delete", "Delete", new { id=item.PrescriptionId })
+            }
         </td>
     </tr>
 }

@@ -101,7 +101,7 @@
         <div class="form-group">
                 @Html.LabelFor(model => model.Patient.State, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-2">
-                    @Html.TextBoxFor(model => model.Patient.State, "", htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Patient.State, ViewBag.States as SelectList, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Patient.State, "", new { @class = "text-danger" })
                 </div> 
                 @Html.LabelFor(model => model.Patient.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -149,7 +149,7 @@
                     @Html.DropDownList("Medications", ViewBag.Medications as SelectList, "Choose medication...", htmlAttributes: new { @class = "form-control"})
                 </div>
                 <div class="col-md-2">
-                    @Html.TextBox("PrescriptionQuantity", "(enter quantity)", htmlAttributes: new { @class = "form-control" })
+                    @Html.TextBox("PrescriptionQuantity", "", htmlAttributes: new { @class = "form-control", @placeholder = "(enter quantity)"})
                 </div>
                 <div class="col-md-2">
                     @Html.DropDownList("PrescriptionUnit", ViewBag.Units as SelectList, htmlAttributes: new { @class = "form-control" })
