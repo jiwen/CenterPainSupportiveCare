@@ -21,7 +21,9 @@ namespace CenterPainSupportiveCareModels
     
         public int ProviderId { get; set; }
         public string ProviderName { get; set; }
+        public Nullable<int> StatusId { get; set; }
     
         public virtual ICollection<Prescription> Prescriptions { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

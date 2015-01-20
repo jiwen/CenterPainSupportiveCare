@@ -419,7 +419,8 @@ namespace CenterPainSupportiveCare.Controllers
         {
             try
             {
-                return new SelectList(db.Providers, "ProviderId", "ProviderName");
+                var list = db.Providers.Where(p => p.StatusId == 1).ToList();
+                return new SelectList(list, "ProviderId", "ProviderName");
             }
             catch(Exception ex)
             {

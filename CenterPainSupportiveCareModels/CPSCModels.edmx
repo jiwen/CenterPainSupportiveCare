@@ -376,6 +376,7 @@
           </Key>
           <Property Name="ProviderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProviderName" Type="varchar(max)" />
+          <Property Name="StatusId" Type="int" />
         </EntityType>
         <EntityType Name="PulmonaryExams">
           <Key>
@@ -871,6 +872,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Providers_Statuses">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Providers" Type="Self.Providers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Providers">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PulmonaryExams_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
           <End Role="PulmonaryExams" Type="Self.PulmonaryExams" Multiplicity="*" />
@@ -1162,6 +1175,10 @@
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="Prescriptions" EntitySet="Prescriptions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Providers_Statuses" Association="Self.FK_Providers_Statuses">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Providers" EntitySet="Providers" />
+          </AssociationSet>
           <AssociationSet Name="FK_PulmonaryExams_Patients" Association="Self.FK_PulmonaryExams_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PulmonaryExams" EntitySet="PulmonaryExams" />
@@ -1268,6 +1285,7 @@
           <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Prescriptions" Relationship="Model.FK_Prescriptions_Statuses" FromRole="Status" ToRole="Prescription" />
+          <NavigationProperty Name="Providers" Relationship="Model.FK_Providers_Statuses" FromRole="Status" ToRole="Provider" />
         </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Medications" EntityType="Self.Medication" />
@@ -1474,6 +1492,10 @@
           <AssociationSet Name="FK_Syringes_Prescriptions" Association="Model.FK_Syringes_Prescriptions">
             <End Role="Prescription" EntitySet="Prescriptions" />
             <End Role="Syrinx" EntitySet="Syringes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Providers_Statuses" Association="Model.FK_Providers_Statuses">
+            <End Role="Status" EntitySet="Statuses" />
+            <End Role="Provider" EntitySet="Providers" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -1797,6 +1819,8 @@
           <Property Name="ProviderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProviderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Prescriptions" Relationship="Model.FK_Prescriptions_Providers" FromRole="Provider" ToRole="Prescription" />
+          <Property Name="StatusId" Type="Int32" />
+          <NavigationProperty Name="Status" Relationship="Model.FK_Providers_Statuses" FromRole="Provider" ToRole="Status" />
         </EntityType>
         <EntityType Name="PulmonaryExam">
           <Key>
@@ -2450,6 +2474,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Providers_Statuses">
+          <End Type="Model.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="Model.Provider" Role="Provider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Provider">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2803,6 +2839,7 @@
           <EntitySetMapping Name="Providers">
             <EntityTypeMapping TypeName="Model.Provider">
               <MappingFragment StoreEntitySet="Providers">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
                 <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
               </MappingFragment>

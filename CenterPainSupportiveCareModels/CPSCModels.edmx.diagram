@@ -87,6 +87,7 @@
         <EntityTypeShape EntityType="Model.Syrinx" Width="1.5" PointX="16.25" PointY="8.75" />
         <AssociationConnector Association="Model.FK_PrescriptionMedicationSyringes_Syringes" />
         <AssociationConnector Association="Model.FK_Syringes_Prescriptions" />
+        <AssociationConnector Association="Model.FK_Providers_Statuses" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

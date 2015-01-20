@@ -48,6 +48,16 @@
 }                        
                         </ul>
                     </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Providers<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Manage", "Index", "Providers")</li>                                
+                                <li>@Html.ActionLink("Create", "Create", "Providers")</li>                                
+                            </ul>
+                        </li>
+                    }                        
                     
                 </ul>
             }

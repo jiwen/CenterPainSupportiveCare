@@ -17,11 +17,13 @@ namespace CenterPainSupportiveCareModels
         public Status()
         {
             this.Prescriptions = new HashSet<Prescription>();
+            this.Providers = new HashSet<Provider>();
         }
     
         public int StatusId { get; set; }
         public string Description { get; set; }
     
         public virtual ICollection<Prescription> Prescriptions { get; set; }
+        public virtual ICollection<Provider> Providers { get; set; }
     }
 }
